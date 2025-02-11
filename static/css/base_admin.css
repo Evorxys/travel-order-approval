@@ -1,0 +1,52 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #1a237e;  /* Dark blue for Admin */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.welcome-message {
+    color: white;
+    font-size: 1.1rem;
+    margin-left: 1rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    font-weight: 500;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logout-btn {
+    background-color: #dc3545;
+    color: white !important;
+    border: none;
+}
+
+.logout-btn:hover {
+    background-color: #c82333 !important;
+}
+
+.content {
+    padding: 2rem;
+}

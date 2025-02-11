@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/png" href="/uploads/icons/CNAG.png">
+    {% block head %}
+    <link rel="stylesheet" href="/css/base_emp.css">
+    <script src="/js/base.js" defer></script>
+    {% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">
+                <img src="/uploads/icons/CNAG.png" alt="CNAG Logo" height="40">
+            </div>
+            <div class="welcome-message">
+                {% block welcome_message %}{% endblock %}
+            </div>
+        </div>
+        <div class="nav-links">
+            {% if session['role'] == 'employee' %}
+            <a href="{{ url_for('create_travel') }}" class="nav-item">Create T.O.</a>
+            {% endif %}
+            <a href="#" class="nav-item">Travel Orders</a>
+            <a href="#" class="nav-item">Edit Profile</a>
+            <a href="{{ url_for('logout') }}" class="nav-item logout-btn">Exit</a>
+        </div>
+    </nav>
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

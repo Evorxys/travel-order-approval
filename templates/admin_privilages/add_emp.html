@@ -1,0 +1,64 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Add Employee{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/admin_privilages/add_emp.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="add-employee-container">
+    <h1>Add New Employee</h1>
+    <div class="form-container">
+        <form method="post" action="{{ url_for('add_employee') }}">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role:</label>
+                    <select id="role" name="role" required>
+                        <option value="">Select Role</option>
+                        <option value="EMPLOYEE">EMPLOYEE</option>
+                        <option value="CHIEF">CHIEF</option>
+                        <option value="CENRO">CENRO</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="position">Position:</label>
+                    <input type="text" id="position" name="position" required>
+                </div>
+                <div class="form-group">
+                    <label for="section">Section:</label>
+                    <select id="section" name="section" required>
+                        <option value="">Select Section</option>
+                        <option value="CENRO">CENRO Office</option>
+                        <option value="ADMIN">Admin Section</option>
+                        <option value="RECORDS">Records Section</option>
+                        <option value="PLANNING">Planning and Support Section</option>
+                        <option value="CDS">CDS - Conservation and Development Section</option>
+                        <option value="RPS">RPS - Regulation and Permitting Section</option>
+                        <option value="MES">MES - Monitoring and Enforcement Section</option>
+                        <option value="NGP">NGP - National Greening Program Section</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="official_station">Official Station:</label>
+                    <input type="text" id="official_station" name="official_station" value="CENRO NAGUILIAN" required disabled>
+                </div>
+            </div>
+            <button type="submit">Add Employee</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

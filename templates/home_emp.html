@@ -1,0 +1,16 @@
+{% extends "base_emp.html" %}
+
+{% block title %}Employee Home{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="/css/home_emp.css">
+{% endblock %}
+
+{% block welcome_message %}
+Welcome, {{ employee.name }}!
+{% endblock %}
+
+{% block content %}
+<!-- Add your employee dashboard content here -->
+{% endblock %}

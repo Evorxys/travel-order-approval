@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/png" href="/uploads/icons/CNAG.png">
+    <link rel="stylesheet" href="/css/base_chief.css">
+    <script src="/js/base.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">
+                <img src="/uploads/icons/CNAG.png" alt="CNAG Logo" height="40">
+            </div>
+            <div class="welcome-message">
+                {% block welcome_message %}{% endblock %}
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-item">Review T.O.</a>
+            <a href="#" class="nav-item">Pending T.O.</a>
+            <a href="#" class="nav-item">View Records</a>
+            <a href="#" class="nav-item">Edit Profile</a>
+            <a href="#" class="nav-item logout-btn">Exit</a>
+        </div>
+    </nav>
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
