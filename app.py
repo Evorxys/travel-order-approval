@@ -16,7 +16,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 db = SQLAlchemy(app)
 
 class Warriors(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     name = db.Column(db.String(120), nullable=False)
@@ -25,7 +25,7 @@ class Warriors(db.Model):
     official_station = db.Column(db.String(120), nullable=False)
 
 class Captain(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     name = db.Column(db.String(120), nullable=False)
@@ -34,7 +34,7 @@ class Captain(db.Model):
     official_station = db.Column(db.String(120), nullable=False)
 
 class Overlord(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     name = db.Column(db.String(120), nullable=False)
@@ -79,10 +79,63 @@ def dashboard_admin():
         return redirect(url_for('login_page'))
     return render_template('home_admin.html')
 
-@app.route('/admin/add_employee')
+@app.route('/admin/add_employee', methods=['GET', 'POST'])
 def add_employee():
     if 'user_id' not in session or session['role'] != 'admin':
         return redirect(url_for('login_page'))
+    
+    if request.method == 'POST':
+        try:
+            name = request.form['name']
+            username = request.form['username']
+            password = request.form['password']
+            position = request.form['position']
+            section = request.form['section']
+            official_station = "CENRO NAGUILIAN"
+            role = request.form['role']
+
+            # Check if username already exists in any table
+            if Warriors.query.filter_by(username=username).first() or \
+               Captain.query.filter_by(username=username).first() or \
+               Overlord.query.filter_by(username=username).first():
+                return "Error: Username already exists", 400
+
+            # Create new user based on role
+            if role == 'EMPLOYEE':
+                new_user = Warriors(
+                    username=username,
+                    password=password,
+                    name=name,
+                    position=position,
+                    section=section,
+                    official_station=official_station
+                )
+            elif role == 'CHIEF':
+                new_user = Captain(
+                    username=username,
+                    password=password,
+                    name=name,
+                    position=position,
+                    section=section,
+                    official_station=official_station
+                )
+            elif role == 'CENRO':
+                new_user = Overlord(
+                    username=username,
+                    password=password,
+                    name=name,
+                    position=position,
+                    section=section,
+                    official_station=official_station
+                )
+            
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect(url_for('admin_employee_list'))
+        except Exception as e:
+            db.session.rollback()
+            return f"Error adding employee: {str(e)}", 400
+
     return render_template('admin_privilages/add_emp.html')
 
 @app.route('/admin/employee_list')
