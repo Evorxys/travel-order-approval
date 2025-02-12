@@ -19,17 +19,28 @@ class Warriors(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    name = db.Column(db.String(120), nullable=False)  # Add this line
+    name = db.Column(db.String(120), nullable=False)
+    position = db.Column(db.String(120), nullable=False)
+    section = db.Column(db.String(120), nullable=False)
+    official_station = db.Column(db.String(120), nullable=False)
 
 class Captain(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.String(120), nullable=False)
+    position = db.Column(db.String(120), nullable=False)
+    section = db.Column(db.String(120), nullable=False)
+    official_station = db.Column(db.String(120), nullable=False)
 
 class Overlord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.String(120), nullable=False)
+    position = db.Column(db.String(120), nullable=False)
+    section = db.Column(db.String(120), nullable=False)
+    official_station = db.Column(db.String(120), nullable=False)
 
 @app.route('/uploads/<path:filename>')
 def serve_uploads(filename):
@@ -78,7 +89,47 @@ def add_employee():
 def admin_employee_list():
     if 'user_id' not in session or session['role'] != 'admin':
         return redirect(url_for('login_page'))
-    return render_template('admin_privilages/employee_list.html')
+    
+    # Fetch all users from different tables with proper attributes
+    warriors = Warriors.query.with_entities(
+        Warriors.name, Warriors.username, Warriors.position,
+        Warriors.section, Warriors.official_station
+    ).all()
+    captains = Captain.query.with_entities(
+        Captain.name, Captain.username, Captain.position,
+        Captain.section, Captain.official_station
+    ).all()
+    overlords = Overlord.query.with_entities(
+        Overlord.name, Overlord.username, Overlord.position,
+        Overlord.section, Overlord.official_station
+    ).all()
+    
+    # Convert query results to dictionaries
+    all_users = (
+        [{'user': {
+            'name': w.name,
+            'username': w.username,
+            'position': w.position,
+            'section': w.section,
+            'official_station': w.official_station
+        }, 'role': 'Employee'} for w in warriors] +
+        [{'user': {
+            'name': c.name,
+            'username': c.username,
+            'position': c.position,
+            'section': c.section,
+            'official_station': c.official_station
+        }, 'role': 'Chief'} for c in captains] +
+        [{'user': {
+            'name': o.name,
+            'username': o.username,
+            'position': o.position,
+            'section': o.section,
+            'official_station': o.official_station
+        }, 'role': 'CENRO'} for o in overlords]
+    )
+    
+    return render_template('admin_privilages/employee_list.html', users=all_users)
 
 @app.route('/login', methods=['POST'])
 def login():

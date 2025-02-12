@@ -11,7 +11,36 @@
 <div class="employee-list-container">
     <h1>Employee List</h1>
     <div class="table-container">
-        <!-- Table content will be added later -->
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 25%">Name</th>
+                    <th style="width: 15%">Username</th>
+                    <th style="width: 20%">Position</th>
+                    <th style="width: 15%">Section</th>
+                    <th style="width: 15%">Official Station</th>
+                    <th style="width: 10%">Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if users %}
+                    {% for item in users %}
+                    <tr>
+                        <td>{{ item.user.name|default('N/A') }}</td>
+                        <td>{{ item.user.username|default('N/A') }}</td>
+                        <td>{{ item.user.position|default('N/A') }}</td>
+                        <td>{{ item.user.section|default('N/A') }}</td>
+                        <td>{{ item.user.official_station|default('N/A') }}</td>
+                        <td>{{ item.role }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" style="text-align: center;">No employees found</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}
